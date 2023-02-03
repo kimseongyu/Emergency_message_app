@@ -38,7 +38,7 @@ example
 ```
 {
     "inputDate":[
-      {"num":number, "division":string, "step":string, "title":string}
+      {"num":string, "division":string, "step":string, "title":string}
     ]
 }
 ```
@@ -46,13 +46,13 @@ example
 ```
 {
     "2023-02-05":[
-      {"num":192577, "division":"기타", "step":"안전안내", "title":"2023/02/02 20:04:12 [서울경찰청]"}
+      {"num":"192577", "division":"기타", "step":"안전안내", "title":"2023/02/02 20:04:12 [서울경찰청]"}
     ],
     "2023-02-04":[
-      {"num":192576, "division":"전염병", "step":"안전안내", "title":"2023/02/02 20:04:12 [대전경찰청]"}
+      {"num":"192576", "division":"전염병", "step":"안전안내", "title":"2023/02/02 20:04:12 [대전경찰청]"}
     ],
     "2023-02-03":[
-      {"num":192575, "division":"한파", "step":"안전안내", "title":"2023/02/02 20:04:12 [대구경찰청]"}
+      {"num":"192575", "division":"한파", "step":"안전안내", "title":"2023/02/02 20:04:12 [대구경찰청]"}
     ]
 }
 ```
@@ -66,13 +66,13 @@ POST /contents
 ```
 ```
 {
-    "num": number
+    "num": string
 }
 ```
 example
 ```
 {
-    "num":192577,
+    "num":"192577",
 }
 ```
 
