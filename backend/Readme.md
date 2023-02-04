@@ -78,9 +78,9 @@ example
 
 ### Response
 ```
-{"title":string, "region":string, "date":string, "content":string}
+{"title":string, "region":string, "area":string "date":string, "content":string}
 ```
 example
 ```
-{"title":"2023/02/02 20:04:12 [서울경찰청]", "region":"서울 마포구", "date":"2023-02-02 20:04:30", "content":"정승원 실종"}
+{"title":"2023/02/02 20:04:12 [서울경찰청]", "region":"서울특별시", "area":"마포구" "date":"2023-02-02 20:04:30", "content":"정승원 실종"}
 ```
