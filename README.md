@@ -6,5 +6,5 @@
 ## Branch
 ```
 master ── development ┬─ kimseongyu
-                      └─ 
+                      └─ JungSeungwon 
 ```
