@@ -60,7 +60,6 @@ const contentCrawling = async (num) => {
     ];
   }
 
-  console.log(data);
   await setData("contents", data);
 
   await browser.close();
