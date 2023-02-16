@@ -23,40 +23,52 @@ class _MyHomePageState extends State<MyHomePage> {
   };
 
   Future<void> _refresh(BuildContext context) async {
-    await Provider.of<MessageProvider>(context)
-        .fetchData('2023-02-04', '2023-02-05');
+    await setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('전국 재난 문자'), actions: [
-        IconButton(
-          //검색기능 (Form)
-          icon: const Icon(Icons.search),
-          onPressed: () => showDialog(
-            context: context,
-            builder: (context) => Dialog(child: Text('Test')),
-          ),
-        ),
-        //필터링 기능 (Modalpopupsheet)
-        IconButton(
-          icon: const Icon(Icons.filter_alt),
-          onPressed: () async {
-            final tmp = await showModalBottomSheet(
-              context: context,
-              builder: (ctx) {
-                return Filter_button(_filter);
-              },
-            );
-            if (tmp != null) {
-              _filter = tmp;
-              setState(() {});
-            }
-            ;
-          },
-        ),
-      ]),
+        body: NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+            snap: true,
+            floating: true,
+            expandedHeight: 40,
+            elevation: 10,
+            automaticallyImplyLeading: false,
+            title: const Text('전국 재난 문자'),
+            actions: [
+              IconButton(
+                //검색기능 (Form)
+                icon: const Icon(Icons.search),
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => Dialog(child: Text('Test')),
+                ),
+              ),
+              //필터링 기능 (Modalpopupsheet)
+              IconButton(
+                icon: const Icon(Icons.filter_alt),
+                onPressed: () async {
+                  final tmp = await showModalBottomSheet(
+                    context: context,
+                    builder: (ctx) {
+                      return Filter_button(_filter);
+                    },
+                  );
+                  if (tmp != null) {
+                    _filter = tmp;
+                    setState(() {});
+                  }
+                  ;
+                },
+              ),
+            ],
+          )
+        ];
+      },
       body: RefreshIndicator(
         onRefresh: () => _refresh(context),
         child: FutureBuilder(
@@ -77,17 +89,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context, data, child) {
                       final List<Message> message = data.message(_filter);
                       return Padding(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(1),
                         child: ListView.builder(
                           itemCount: message.length,
                           itemBuilder: (context, index) {
-                            return MessageBar(
-                              title: message[index].title,
-                              date: message[index].date,
-                              division: message[index].divison,
-                              step: message[index].step,
-                              id: message[index].id,
-                            );
+                            return message.length == 0
+                                ? Center(child: Text('No data'))
+                                : MessageBar(
+                                    title: message[index].title,
+                                    date: message[index].date,
+                                    division: message[index].divison,
+                                    step: message[index].step,
+                                    id: message[index].id,
+                                  );
                           },
                         ),
                       );
@@ -97,6 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
               }
             }),
       ),
-    );
+    ));
   }
 }
