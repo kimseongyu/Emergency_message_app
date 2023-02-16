@@ -23,6 +23,19 @@ const setData = (table, data) => {
   );
 };
 
+const setArea = (table, data) => {
+  new Promise((resolve, reject) => {
+    db.query(
+      `UPDATE ${table} SET region = '${data[2]}', area = '${data[3]}' WHERE num=${data[0]};`,
+      (err, rows, fields) => {
+        if (err) {
+          throw err;
+        }
+      }
+    );
+  });
+};
+
 const contentCrawling = async (num) => {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
@@ -61,6 +74,7 @@ const contentCrawling = async (num) => {
   }
 
   await setData("contents", data);
+  await setArea("list", data);
 
   await browser.close();
 };
@@ -88,14 +102,16 @@ const listCrawling = async () => {
       $(`#disasterSms_tr_${i}_DSSTR_SE_NM`).text(),
       $(`#disasterSms_tr_${i}_EMRGNCY_STEP_NM`).text(),
       $(`#disasterSms_tr_${i}_MSG_CN`).text(),
+      " ",
+      " ",
     ];
 
     await setData("list", data);
     await contentCrawling(num);
 
     if (++i > 9) {
-      i = 0;
       break;
+      i = 0;
 
       // 다음 페이지 크롤링
       // await page.click("#apagenext", { waitUntil: "networkidle0" });
@@ -106,4 +122,5 @@ const listCrawling = async () => {
   await browser.close();
 };
 
-setInterval(listCrawling, 60000);
+listCrawling();
+setInterval(listCrawling, 300000);
